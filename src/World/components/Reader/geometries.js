@@ -14,3 +14,5 @@ function createGeometries() {
 
    return { frameGeo, screenGeo, sideButtonGeo, menuButtonGeo };
 }
+
+export { createGeometries };
