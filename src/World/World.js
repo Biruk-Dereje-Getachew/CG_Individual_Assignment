@@ -33,7 +33,8 @@ class World {
       const controls = createControls(camera, renderer.domElement);
 
       container.addEventListener("click", () => {
-         controls.autoRotate = !controls.autoRotate;
+         if (controls.autoRotate === false) setTimeout(() => (controls.autoRotate = !controls.autoRotate), 1000);
+         else controls.autoRotate = !controls.autoRotate;
       });
       const raycasterSystem = new RaycasterSystem(camera, renderer.domElement, scene);
 
