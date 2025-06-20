@@ -14,22 +14,34 @@ class RaycasterSystem {
       this.pointerX = 0;
       this.pointerY = 0;
 
-      // Track pointer position
-      this.canvas.addEventListener("mousemove", (event) => {
+      // Text display element
+      this.tooltip = document.createElement("div");
+      this.tooltip.style.position = "absolute";
+      this.tooltip.style.padding = "6px 12px";
+      this.tooltip.style.background = "rgba(0,0,0,0.7)";
+      this.tooltip.style.color = "#fff";
+      this.tooltip.style.borderRadius = "4px";
+      this.tooltip.style.pointerEvents = "none";
+      this.tooltip.style.display = "none";
+      this.tooltip.style.fontFamily = "sans-serif";
+      this.tooltip.style.fontSize = "13px";
+      document.body.appendChild(this.tooltip);
+
+      canvas.addEventListener("mousemove", (event) => {
          const rect = this.canvas.getBoundingClientRect();
          this.pointerX = ((event.clientX - rect.left) / rect.width) * 2 - 1;
          this.pointerY = -((event.clientY - rect.top) / rect.height) * 2 + 1;
+
+         this.latestMouseEvent = event; // store for tooltip positioning
       });
+
+      canvas.addEventListener("click", (event) => this.onClick(event));
    }
 
    tick() {
-      // Update mouse coordinates
       this.mouse.set(this.pointerX, this.pointerY);
-
-      // Cast the ray
       this.raycaster.setFromCamera(this.mouse, this.camera);
 
-      // Collect objects with emissive support
       const objectsToTest = [];
       this.scene.traverse((child) => {
          if (child.isMesh && child.material && "emissive" in child.material && "emissiveIntensity" in child.material) {
@@ -37,7 +49,6 @@ class RaycasterSystem {
          }
       });
 
-      // Find intersections
       const intersects = this.raycaster.intersectObjects(objectsToTest, true);
 
       if (intersects.length > 0) {
@@ -64,6 +75,39 @@ class RaycasterSystem {
             this.intersected.material.emissive.copy(this.originalEmissive);
             this.intersected = null;
          }
+      }
+   }
+
+   onClick(event) {
+      this.raycaster.setFromCamera(this.mouse, this.camera);
+
+      const objectsToTest = [];
+      this.scene.traverse((child) => {
+         if (child.isMesh) {
+            objectsToTest.push(child);
+         }
+      });
+
+      const intersects = this.raycaster.intersectObjects(objectsToTest, true);
+      if (intersects.length > 0) {
+         const hit = intersects[0].object;
+
+         const label = hit.name || hit.userData.label || "Unnamed Object";
+
+         // Show tooltip near mouse
+         const x = event.clientX;
+         const y = event.clientY;
+
+         this.tooltip.innerText = label;
+         this.tooltip.style.left = `${x + 10}px`;
+         this.tooltip.style.top = `${y + 10}px`;
+         this.tooltip.style.display = "block";
+
+         // Optional: hide after a few seconds
+         clearTimeout(this._hideTimeout);
+         this._hideTimeout = setTimeout(() => {
+            this.tooltip.style.display = "none";
+         }, 3000);
       }
    }
 }

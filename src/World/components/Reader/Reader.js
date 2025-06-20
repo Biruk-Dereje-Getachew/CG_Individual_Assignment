@@ -50,6 +50,8 @@ class Reader extends Group {
       this.add(rightButtonGroup);
       rightButtonGroup.position.x = deviceWidth / 2;
       rightButtonGroup.position.y = screenHeight / 4;
+      rightButtonGroup.children[0].name = "Increase By One Page";
+      rightButtonGroup.children[1].name = "Increase By 10% of the Length of the Book";
 
       // Adding menu button
       this.add(meshes.menuButtonMesh);
