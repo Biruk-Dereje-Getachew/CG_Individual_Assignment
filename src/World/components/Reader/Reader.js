@@ -56,7 +56,6 @@ class Reader extends Group {
       meshes.menuButtonMesh.rotation.x = Math.PI / 2;
       meshes.menuButtonMesh.position.y = -screenHeight / 2 - (deviceHeight - screenHeight) / 4;
       meshes.menuButtonMesh.position.z += 0.003;
-      console.log(meshes.menuButtonMesh.position);
    }
 }
 

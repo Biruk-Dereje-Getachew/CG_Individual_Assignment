@@ -1,13 +1,13 @@
 import { createCamera } from "./components/camera";
 import { createScene } from "./components/scene";
 import { createLights } from "./components/lights";
-import { createCube } from "./components/cube";
+import { Reader } from "./components/Reader/Reader";
 
 import { createRenderer } from "./systems/renderer";
 import { Resizer } from "./systems/Resizer";
 import { Loop } from "./systems/Loop";
 import { createControls } from "./systems/controls";
-import { Reader } from "./components/Reader/Reader";
+import { RaycasterSystem } from "./systems/Raycaster";
 
 let renderer;
 let camera;
@@ -32,8 +32,14 @@ class World {
       // Adding camera controls
       const controls = createControls(camera, renderer.domElement);
 
+      container.addEventListener("click", () => {
+         controls.autoRotate = !controls.autoRotate;
+      });
+      const raycasterSystem = new RaycasterSystem(camera, renderer.domElement, scene);
+
       // Adding things that animate to the updatables array of Loop
       loop.updatables.push(controls);
+      loop.updatables.push(raycasterSystem);
 
       const resizer = new Resizer(container, camera, renderer);
    }

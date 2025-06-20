@@ -19,7 +19,7 @@ function createMaterials() {
    });
 
    const buttonMaterial = new MeshStandardMaterial({
-      color: "silver",
+      color: 0xeeeeee,
       roughness: 0.1,
       metalness: 0.9,
    }); // Meterial of the buttons
