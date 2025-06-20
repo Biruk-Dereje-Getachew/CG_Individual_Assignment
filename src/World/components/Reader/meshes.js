@@ -8,10 +8,13 @@ function createMeshes() {
 
    const frameMesh = new Mesh(geometries.frameGeo, materials.frameMaterial); // Frame Mesh
    const screenMesh = new Mesh(geometries.screenGeo, materials.screenMaterial); // Screen Mesh
-   const sidebuttonMesh = new Mesh(geometries.sideButtonGeo, materials.buttonMaterial); // Side Button Mesh
-   const menubuttonMesh = new Mesh(geometries.menuButtonGeo, materials.buttonMaterial); // Side Button Mesh
 
-   return { frameMesh, screenMesh, sidebuttonMesh, menubuttonMesh };
+   const sidebuttonMesh = new Mesh(geometries.sideButtonGeo, materials.buttonMaterial); // Side Button Mesh
+   const sidebutton2 = sidebuttonMesh.clone();
+
+   const menuButtonMesh = new Mesh(geometries.menuButtonGeo, materials.buttonMaterial); // Side Button Mesh
+
+   return { frameMesh, screenMesh, sidebuttonMesh, sidebutton2, menuButtonMesh };
 }
 
 export { createMeshes };

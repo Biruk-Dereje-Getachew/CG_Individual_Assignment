@@ -7,6 +7,7 @@ import { createRenderer } from "./systems/renderer";
 import { Resizer } from "./systems/Resizer";
 import { Loop } from "./systems/Loop";
 import { createControls } from "./systems/controls";
+import { Reader } from "./components/Reader/Reader";
 
 let renderer;
 let camera;
@@ -25,6 +26,9 @@ class World {
       const lights = createLights();
       scene.add(lights.directionalLight, lights.ambientLight);
 
+      // Adding Reader
+      const reader = new Reader();
+      scene.add(reader);
       // Adding camera controls
       const controls = createControls(camera, renderer.domElement);
 
